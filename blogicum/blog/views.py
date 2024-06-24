@@ -19,9 +19,16 @@ def category_posts(request, slug):
         is_published=True,
         pub_date__lte=timezone.now()
     ).order_by('-pub_date')
-    return render(request, 'blog/category.html', {'category': category, 'posts': posts})
+    return render(
+        request,
+        'blog/category.html',
+        {'category': category, 'posts': posts}
+    )
 
 
 def post_detail(request, post_id):
-    post = get_object_or_404(Post, pk=post_id, is_published=True, pub_date__lte=timezone.now(), category__is_published=True)
+    post = get_object_or_404(
+        Post, pk=post_id, is_published=True, pub_date__lte=timezone.now(),
+        category__is_published=True
+    )
     return render(request, 'blog/detail.html', {'post': post})
