@@ -4,8 +4,10 @@ from django.conf import settings
 
 User = get_user_model()
 
+TITLE_TRUNCATION_LENGTH = 15
 
-class BaseModel(models.Model):
+
+class PublishableModel(models.Model):
     is_published = models.BooleanField(
         default=True,
         verbose_name='Опубликовано',
@@ -20,7 +22,7 @@ class BaseModel(models.Model):
         abstract = True
 
 
-class Category(BaseModel):
+class Category(PublishableModel):
     title = models.CharField(
         max_length=settings.TITLE_MAX_LENGTH,
         verbose_name='Заголовок'
@@ -38,10 +40,10 @@ class Category(BaseModel):
         verbose_name_plural = 'Категории'
 
     def __str__(self):
-        return self.title[:15]
+        return self.title[:TITLE_TRUNCATION_LENGTH]
 
 
-class Location(BaseModel):
+class Location(PublishableModel):
     name = models.CharField(
         max_length=settings.TITLE_MAX_LENGTH,
         verbose_name='Название места'
@@ -52,10 +54,10 @@ class Location(BaseModel):
         verbose_name_plural = 'Местоположения'
 
     def __str__(self):
-        return self.name[:15]
+        return self.name[:TITLE_TRUNCATION_LENGTH]
 
 
-class Post(BaseModel):
+class Post(PublishableModel):
     title = models.CharField(
         max_length=settings.TITLE_MAX_LENGTH,
         verbose_name='Заголовок'
@@ -90,4 +92,4 @@ class Post(BaseModel):
         verbose_name_plural = 'Публикации'
 
     def __str__(self):
-        return self.title[:15]
+        return self.title[:TITLE_TRUNCATION_LENGTH]
